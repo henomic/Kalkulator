@@ -625,52 +625,32 @@
                         <div class="form-group"
                             style="background-color: #eef2ff; padding: 1rem; border-radius: 0.5rem; border: 1px solid #e0e7ff;">
                             <label class="form-label" for="hotel-star">
-                                <i class="fas fa-hotel"></i> Kelas Hotel madinah
+                                <i class="fas fa-hotel"></i>Harga Hotel madinah (Rial)
                             </label>
-                            <select class="form-control form-select" name="madinah" id="hotel-star">
-                                <option value="">Hotel Bintang 3</option>
-                                <option value="500">Hotel Bintang 3 - 500 riyal/malam</option>
-                                <option value="650">Hotel Bintang 4 - 650 riyal/malam</option>
-                                <option value="1250">Hotel Bintang 5 - 1250 riyal/malam</option>
-                            </select>
-                            <div class="hotel-stars" id="star-display">
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                            </div>
+                            <input type="text" name="madinah" class="form-control form-select">
+
                         </div>
 
                         <div class="form-group"
                             style="background-color: #eef2ff; padding: 1rem; border-radius: 0.5rem; border: 1px solid #e0e7ff;">
                             <label class="form-label" for="hotel-star">
-                                <i class="fas fa-hotel"></i> Kelas Hotel mekah
+                                <i class="fas fa-hotel"></i> Harga Hotel mekah (Rial)
                             </label>
-                            <select class="form-control form-select" name="mekah" id="hotel-star">
-                                <option value="">Hotel Bintang 3
-                                </option>
-                                <option value="600">Hotel Bintang 3 - 600 riyal/malam
-                                </option>
-                                <option value="800">Hotel Bintang 4 - 800 riyal/malam
-                                </option>
-                                <option value="1450">Hotel Bintang 5 - 1450 riyal/malam
-                                </option>
-                            </select>
-                            <div class="hotel-stars" id="star-display">
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                            </div>
+                            <input type="text" name="mekah" class="form-control form-select">
+
+
                         </div>
 
                         <div class="grid grid-2" style="grid-template-columns: 1fr 1fr;">
                             <div class="form-group">
                                 <label class="form-label" for="days">
-                                    <i class="fas fa-calendar"></i> Jumlah Hari
+                                    <i class="fas fa-calendar"></i> Jumlah Hari (untuk 7 hari)
                                 </label>
                                 <div class="input-group">
                                     <i class="fas fa-calendar input-icon"></i>
-                                    <input name="jumlah_hari" type="number" class="form-control  input-with-icon"
-                                        id="days" min="1" value="1">
+                                    <input name="jumlah_hari" type="number" disabled
+                                        class="form-control  input-with-icon" id="days" min="7"
+                                        value="7">
                                 </div>
                             </div>
 
@@ -736,7 +716,7 @@
 
                                 <div class="form-group">
                                     <label class="form-label" for="visa-fee">
-                                        <i class="fas fa-credit-card"></i> Biaya Visa (Riyal)
+                                        <i class="fas fa-credit-card"></i> Biaya Visa
                                     </label>
                                     <div class="input-group">
                                         <i class="fas fa-credit-card input-icon"></i>
@@ -748,7 +728,7 @@
 
                                 <div class="form-group">
                                     <label class="form-label" for="handling-fee">
-                                        <i class="fas fa-briefcase"></i> Biaya Handling (Riyal)
+                                        <i class="fas fa-briefcase"></i> Biaya Handling
                                     </label>
                                     <div class="input-group">
                                         <i class="fas fa-briefcase input-icon"></i>
@@ -761,7 +741,7 @@
 
                                 <div class="form-group">
                                     <label class="form-label" for="equipment-fee">
-                                        <i class="fas fa-box"></i> Biaya Perlengkapan (Riyal)
+                                        <i class="fas fa-box"></i> Biaya Perlengkapan
                                     </label>
                                     <div class="input-group">
                                         <i class="fas fa-box input-icon"></i>
@@ -781,7 +761,7 @@
                 <div class="total-price-card">
                     <div class="price-grid">
                         <div>
-                            <div class="price-label">Total Harga (Riyal):</div>
+                            <div class="price-label">Total Harga (SAR):</div>
                             <div class="price-value price-riyal" id="total-riyal">
                                 <span>SAR</span>
                             </div>
@@ -810,9 +790,8 @@
                     var totalRupiah = $("#total-rupiah").text(0);
 
 
-
                     var elements = $(
-                        "select[name='madinah'], select[name='mekah'], input[name='jumlah_hari'], input[name='jumlah_pax'], input[name='riyal_rupiah'], input[name='biaya_tour'], input[name='biaya_muthowif'], input[name='biaya_visa'], input[name='biaya_handling'], input[name='biaya_perlengkapan']"
+                        "input[name='madinah'], input[name='mekah'], input[name='jumlah_hari'], input[name='jumlah_pax'], input[name='riyal_rupiah'], input[name='biaya_tour'], input[name='biaya_muthowif'], input[name='biaya_visa'], input[name='biaya_handling'], input[name='biaya_perlengkapan']"
                     );
 
                     $("#reset-btn").off("click").on('click', function() {
@@ -845,8 +824,8 @@
                     }
 
                     function Hitung() {
-                        var hotelMadinah = parseFloat($("select[name='madinah']").val()) || 0;
-                        var hotelMekah = parseFloat($("select[name='mekah']").val()) || 0;
+                        var hotelMadinah = parseFloat($("input[name='madinah']").val()) || 0;
+                        var hotelMekah = parseFloat($("input[name='mekah']").val()) || 0;
 
                         var jumlah_hari = parseFloat($("input[name='jumlah_hari']").val()) || 0;
                         var jumlah_pax = parseFloat($("input[name='jumlah_pax']").val()) || 0;
@@ -871,23 +850,36 @@
                         //     return;
                         // }
 
-                        var muthowif = (biaya_muthowif / jumlah_hari) * jumlah_pax;
+                        var muthowif = ((biaya_muthowif * riyal_rupiah) / jumlah_hari) * jumlah_pax;
 
-                        var totalRincian = hotelMadinah + hotelMekah + biaya_tour + biaya_visa + biaya_handling +
-                            biaya_perlengkapan + muthowif;
-
-
-                        console.log('ini rial nya', totalRincian);
-                        console.log('ini rupiah nya', totalRincian);
+                        // var totalRincian = hotelMadinah + hotelMekah + biaya_tour + biaya_visa + biaya_handling +
+                        //     biaya_perlengkapan + muthowif;
 
 
-                        totalRiyal.text(formatRial(totalRincian));
-                        totalRupiah.text(formatIndo(totalRincian * riyal_rupiah));
+                        // console.log('ini rial nya', totalRincian);
+                        // console.log('ini rupiah nya', totalRincian);
+
+                        var totalMadinah = (hotelMadinah * riyal_rupiah * 3) / 4
+                        var totalMekah = (hotelMekah * riyal_rupiah * 4) / 4
+                        var handlingBiaya = biaya_handling / jumlah_pax;
+
+                        var totalRincian = muthowif + totalMadinah + totalMekah + handlingBiaya + biaya_visa +
+                            biaya_perlengkapan;
+
+                        totalRiyal.text(formatRial(totalRincian / riyal_rupiah));
+                        totalRupiah.text(formatIndo(totalRincian));
 
                     }
 
                 });
+
+
+                const githubPagesURL = window.location.origin + window.location.pathname;
+
+                console.log(githubPagesURL);
             </script>
+
+
 </body>
 
 </html>
