@@ -1,0 +1,893 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+
+
+    <!-- Versi Full (Lengkap dengan AJAX & efek animasi) -->
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kalkulator Hotel</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #4361ee;
+            --primary-light: #eef2ff;
+            --secondary-color: #7209b7;
+            --accent-color: #3a0ca3;
+            --success-color: #4cc9f0;
+            --warning-color: #f72585;
+            --text-color: #333;
+            --text-light: #6b7280;
+            --bg-color: #f9fafb;
+            --card-bg: #ffffff;
+            --border-color: #e5e7eb;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(to bottom, #eef2ff, #ffffff);
+            color: var(--text-color);
+            line-height: 1.6;
+            min-height: 100vh;
+            padding: 2rem 1rem;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .header h1 {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--text-color);
+            margin-bottom: 0.5rem;
+        }
+
+        .header p {
+            color: var(--text-light);
+        }
+
+        .card {
+            background: var(--card-bg);
+            border-radius: 1rem;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            margin-bottom: 2rem;
+        }
+
+        .card-header {
+            background: linear-gradient(to right, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .card-header h2 {
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+
+        .card-header p {
+            opacity: 0.8;
+            font-size: 0.9rem;
+        }
+
+        .section {
+            padding: 1.5rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .section:last-child {
+            border-bottom: none;
+        }
+
+        .section-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--primary-color);
+        }
+
+        .section-description {
+            font-size: 0.9rem;
+            color: var(--text-light);
+            margin-bottom: 1.5rem;
+        }
+
+        .grid {
+            display: grid;
+            gap: 1.5rem;
+        }
+
+        .grid-2 {
+            grid-template-columns: 1fr;
+        }
+
+        @media (min-width: 768px) {
+            .grid-2 {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            font-size: 1rem;
+            border: 1px solid var(--border-color);
+            border-radius: 0.5rem;
+            background-color: white;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.1);
+        }
+
+        .form-select {
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%236b7280'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 1rem center;
+            background-size: 1rem;
+            padding-right: 2.5rem;
+        }
+
+        .form-hint {
+            font-size: 0.8rem;
+            color: var(--text-light);
+            margin-top: 0.25rem;
+        }
+
+        .hotel-preview {
+            background: linear-gradient(to bottom right, var(--primary-light), #f0e7ff);
+            border-radius: 0.75rem;
+            padding: 1.5rem;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            border: 1px solid #e0e7ff;
+        }
+
+        .hotel-preview-header {
+            text-align: center;
+            margin-bottom: 1rem;
+        }
+
+        .hotel-preview-image {
+            position: relative;
+            height: 160px;
+            background-color: white;
+            border-radius: 0.5rem;
+            overflow: hidden;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid var(--border-color);
+        }
+
+        .hotel-preview-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .hotel-badge {
+            position: absolute;
+            top: 0.5rem;
+            right: 0.5rem;
+            background-color: rgba(255, 255, 255, 0.9);
+            padding: 0.25rem 0.5rem;
+            border-radius: 0.25rem;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        .hotel-stars {
+            display: flex;
+            margin-top: 0.5rem;
+        }
+
+        .hotel-stars i {
+            color: #fbbf24;
+            margin-right: 0.25rem;
+        }
+
+        .hotel-info-item {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .hotel-info-label {
+            color: var(--text-light);
+        }
+
+        .hotel-info-value {
+            font-weight: 500;
+        }
+
+        .facility-card {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            border: 1px solid var(--border-color);
+            background-color: white;
+            transition: all 0.3s ease;
+            margin-bottom: 0.75rem;
+        }
+
+        .facility-card.selected {
+            background-color: var(--primary-light);
+            border-color: #c7d2fe;
+        }
+
+        .facility-icon {
+            width: 2.5rem;
+            height: 2.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 0.5rem;
+            color: white;
+        }
+
+        .facility-icon.breakfast {
+            background-color: #fb923c;
+        }
+
+        .facility-icon.wifi {
+            background-color: var(--primary-color);
+        }
+
+        .facility-icon.pool {
+            background-color: var(--success-color);
+        }
+
+        .facility-icon.spa {
+            background-color: var(--secondary-color);
+        }
+
+        .facility-info {
+            flex: 1;
+        }
+
+        .facility-name {
+            font-weight: 500;
+            margin-bottom: 0.25rem;
+        }
+
+        .facility-description {
+            font-size: 0.8rem;
+            color: var(--text-light);
+        }
+
+        .facility-price {
+            font-weight: 500;
+            font-size: 0.9rem;
+            padding: 0.25rem 0.5rem;
+            border-radius: 0.25rem;
+            background-color: #f3f4f6;
+        }
+
+        .selected-facilities {
+            background: linear-gradient(to bottom right, var(--primary-light), #f0e7ff);
+            border-radius: 0.75rem;
+            padding: 1.5rem;
+            height: 100%;
+            border: 1px solid #e0e7ff;
+        }
+
+        .selected-facility-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.75rem;
+            background-color: white;
+            border-radius: 0.5rem;
+            margin-bottom: 0.75rem;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+        }
+
+        .selected-facility-name {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .selected-facility-price {
+            font-weight: 500;
+        }
+
+        .empty-facilities {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 200px;
+            text-align: center;
+        }
+
+        .empty-icon {
+            width: 3rem;
+            height: 3rem;
+            background-color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1rem;
+            color: var(--text-light);
+        }
+
+        .separator {
+            height: 1px;
+            background-color: var(--border-color);
+            margin: 1rem 0;
+        }
+
+        .fee-summary {
+            background: linear-gradient(to bottom right, var(--primary-light), #f0e7ff);
+            border-radius: 0.75rem;
+            padding: 1.5rem;
+            height: 100%;
+            border: 1px solid #e0e7ff;
+        }
+
+        .summary-item {
+            background-color: white;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            margin-bottom: 1rem;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+        }
+
+        .summary-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.5rem;
+        }
+
+        .summary-title {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--text-light);
+        }
+
+        .summary-value {
+            font-weight: 500;
+        }
+
+        .summary-details {
+            font-size: 0.8rem;
+            color: var(--text-light);
+        }
+
+        .summary-fees {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 0.5rem;
+        }
+
+        .card-footer {
+            padding: 1.5rem;
+            background: linear-gradient(to right, #f9fafb, #eef2ff);
+            border-top: 1px solid var(--border-color);
+        }
+
+        .total-price-card {
+            background-color: white;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            margin-bottom: 1rem;
+            box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .price-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1rem;
+        }
+
+        @media (min-width: 768px) {
+            .price-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        .price-label {
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: var(--text-light);
+            margin-bottom: 0.25rem;
+        }
+
+        .price-value {
+            font-size: 1.75rem;
+            font-weight: 700;
+            display: flex;
+            align-items: baseline;
+        }
+
+        .price-value span {
+            font-size: 1rem;
+            color: var(--text-light);
+            margin-left: 0.25rem;
+        }
+
+        .price-riyal {
+            color: var(--text-color);
+        }
+
+        .price-rupiah {
+            color: var(--primary-color);
+        }
+
+        .exchange-rate {
+            font-size: 0.8rem;
+            color: var(--text-light);
+        }
+
+        .button-group {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 0.75rem 1.5rem;
+            font-size: 1rem;
+            font-weight: 500;
+            text-align: center;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: none;
+        }
+
+        .btn-outline {
+            background-color: white;
+            color: var(--text-color);
+            border: 1px solid var(--border-color);
+        }
+
+        .btn-outline:hover {
+            background-color: #f9fafb;
+        }
+
+        .btn-primary {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: #3a56e4;
+        }
+
+        .checkbox-wrapper {
+            display: flex;
+            align-items: center;
+        }
+
+        .checkbox {
+            appearance: none;
+            width: 1.25rem;
+            height: 1.25rem;
+            border: 1px solid var(--border-color);
+            border-radius: 0.25rem;
+            margin-right: 0.5rem;
+            position: relative;
+            cursor: pointer;
+        }
+
+        .checkbox:checked {
+            background-color: var(--primary-color);
+            border-color: var(--primary-color);
+        }
+
+        .checkbox:checked::after {
+            content: '';
+            position: absolute;
+            left: 0.4rem;
+            top: 0.2rem;
+            width: 0.3rem;
+            height: 0.6rem;
+            border: solid white;
+            border-width: 0 2px 2px 0;
+            transform: rotate(45deg);
+        }
+
+        .checkbox:focus {
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.1);
+        }
+
+        .input-group {
+            position: relative;
+        }
+
+        .input-icon {
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-light);
+        }
+
+        .input-with-icon {
+            padding-left: 2.5rem;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 0.25rem 0.5rem;
+            font-size: 0.75rem;
+            font-weight: 500;
+            border-radius: 0.25rem;
+            margin-left: 0.5rem;
+        }
+
+        .badge-blue {
+            background-color: #dbeafe;
+            color: #1e40af;
+        }
+
+        .badge-purple {
+            background-color: #ede9fe;
+            color: #6d28d9;
+        }
+
+        .badge-amber {
+            background-color: #fef3c7;
+            color: #92400e;
+        }
+
+        .badge-cyan {
+            background-color: #cffafe;
+            color: #0e7490;
+        }
+
+        .section-divider {
+            height: 1px;
+            background: linear-gradient(to right, var(--primary-light), var(--secondary-color), var(--primary-light));
+            margin: 0.5rem 0 1.5rem;
+            opacity: 0.3;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Kalkulator Hotel</h1>
+            <p>by zizee.</p>
+        </div>
+
+        <div class="card">
+            <div class="card-header">
+                <div>
+                    <p>Musahefiz Tour And Travel </p>
+                </div>
+                <i class="fas fa-hotel fa-2x"></i>
+            </div>
+
+            <div class="section">
+                <div class="section-title">
+                    <i class="fas fa-hotel"></i> Detail Hotel
+                </div>
+                <div class="section-divider"></div>
+
+                <div class="grid grid-2">
+                    <div>
+                        <div class="form-group"
+                            style="background-color: #eef2ff; padding: 1rem; border-radius: 0.5rem; border: 1px solid #e0e7ff;">
+                            <label class="form-label" for="hotel-star">
+                                <i class="fas fa-hotel"></i> Kelas Hotel madinah
+                            </label>
+                            <select class="form-control form-select" name="madinah" id="hotel-star">
+                                <option value="">Hotel Bintang 3</option>
+                                <option value="500">Hotel Bintang 3 - 500 riyal/malam</option>
+                                <option value="650">Hotel Bintang 4 - 650 riyal/malam</option>
+                                <option value="1250">Hotel Bintang 5 - 1250 riyal/malam</option>
+                            </select>
+                            <div class="hotel-stars" id="star-display">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                            </div>
+                        </div>
+
+                        <div class="form-group"
+                            style="background-color: #eef2ff; padding: 1rem; border-radius: 0.5rem; border: 1px solid #e0e7ff;">
+                            <label class="form-label" for="hotel-star">
+                                <i class="fas fa-hotel"></i> Kelas Hotel mekah
+                            </label>
+                            <select class="form-control form-select" name="mekah" id="hotel-star">
+                                <option value="">Hotel Bintang 3
+                                </option>
+                                <option value="600">Hotel Bintang 3 - 600 riyal/malam
+                                </option>
+                                <option value="800">Hotel Bintang 4 - 800 riyal/malam
+                                </option>
+                                <option value="1450">Hotel Bintang 5 - 1450 riyal/malam
+                                </option>
+                            </select>
+                            <div class="hotel-stars" id="star-display">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                            </div>
+                        </div>
+
+                        <div class="grid grid-2" style="grid-template-columns: 1fr 1fr;">
+                            <div class="form-group">
+                                <label class="form-label" for="days">
+                                    <i class="fas fa-calendar"></i> Jumlah Hari
+                                </label>
+                                <div class="input-group">
+                                    <i class="fas fa-calendar input-icon"></i>
+                                    <input name="jumlah_hari" type="number" class="form-control  input-with-icon"
+                                        id="days" min="1" value="1">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label" for="pax">
+                                    <i class="fas fa-users"></i> Jumlah pax
+                                </label>
+                                <div class="input-group">
+                                    <i class="fas fa-users input-icon"></i>
+                                    <input name="jumlah_pax" type="number" class="form-control input-with-icon"
+                                        id="pax" min="1" value="1">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label" for="riyal-rate">
+                                <i class="fas fa-dollar-sign"></i> Kurs Riyal ke Rupiah
+                            </label>
+                            <div class="input-group">
+                                <i class="fas fa-dollar-sign input-icon"></i>
+                                <input name="riyal_rupiah" type="number" class="form-control input-with-icon"
+                                    id="riyal-rate" min="1" value="4300">
+                            </div>
+                            <div class="form-hint">Kurs saat ini: 1 riyal = <span id="current-rate">4300</span> IDR
+                            </div>
+                        </div>
+                    </div>
+                    <div class="section">
+                        <div class="section-title">
+                            <i class="fas fa-credit-card"></i> Biaya Tambahan
+                        </div>
+                        <div class="section-divider"></div>
+
+                        <div class="grid grid-2">
+                            <div>
+                                <p class="section-description">Biaya tambahan yang diperlukan untuk perjalanan Anda</p>
+
+                                <div class="form-group">
+                                    <label class="form-label" for="visa-fee">
+                                        <i class="fas fa-credit-card"></i> Biaya Tour Leader
+                                    </label>
+                                    <div class="input-group">
+                                        <i class="fas fa-credit-card input-icon"></i>
+                                        <input name="biaya_tour" type="number" class="form-control input-with-icon"
+                                            id="visa-fee" min="0" value="0">
+                                    </div>
+                                    <div class="form-hint">Biaya Tour Leader</div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="form-label" for="visa-fee">
+                                        <i class="fas fa-credit-card"></i> Biaya Muthowif
+                                    </label>
+                                    <div class="input-group">
+                                        <i class="fas fa-credit-card input-icon"></i>
+                                        <input name="biaya_muthowif" type="number"
+                                            class="form-control input-with-icon" id="visa-fee" min="0"
+                                            value="0">
+                                    </div>
+                                    <div class="form-hint">Biaya Muthowif</div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="form-label" for="visa-fee">
+                                        <i class="fas fa-credit-card"></i> Biaya Visa (Riyal)
+                                    </label>
+                                    <div class="input-group">
+                                        <i class="fas fa-credit-card input-icon"></i>
+                                        <input type="number" name="biaya_visa" class="form-control input-with-icon"
+                                            id="visa-fee" min="0" value="0">
+                                    </div>
+                                    <div class="form-hint">Biaya pemrosesan visa standar</div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="form-label" for="handling-fee">
+                                        <i class="fas fa-briefcase"></i> Biaya Handling (Riyal)
+                                    </label>
+                                    <div class="input-group">
+                                        <i class="fas fa-briefcase input-icon"></i>
+                                        <input type="number" name="biaya_handling"
+                                            class="form-control input-with-icon" id="handling-fee" min="0"
+                                            value="0">
+                                    </div>
+                                    <div class="form-hint">Biaya layanan dan pemrosesan</div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="form-label" for="equipment-fee">
+                                        <i class="fas fa-box"></i> Biaya Perlengkapan (Riyal)
+                                    </label>
+                                    <div class="input-group">
+                                        <i class="fas fa-box input-icon"></i>
+                                        <input type="number" name="biaya_perlengkapan"
+                                            class="form-control input-with-icon" id="equipment-fee" min="0"
+                                            value="0">
+                                    </div>
+                                    <div class="form-hint">Biaya sewa perlengkapan tambahan</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="card-footer">
+                <div class="total-price-card">
+                    <div class="price-grid">
+                        <div>
+                            <div class="price-label">Total Harga (Riyal):</div>
+                            <div class="price-value price-riyal" id="total-riyal">
+                                <span>SAR</span>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="price-label">Total Harga (Rupiah):</div>
+                            <div class="price-value price-rupiah" id="total-rupiah">
+                                Rp 0
+                            </div>
+                            <div class="exchange-rate">Kurs: 1 SAR = <span id="exchange-rate-display"></span> IDR
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="button-group">
+                    <button class="btn btn-outline" id="reset-btn">Reset Semua</button>
+                    <button class="btn btn-primary" id="calculate-btn">Hitung Total</button>
+                </div>
+            </div>
+
+            <script>
+                $(document).ready(function() {
+
+                    var totalRiyal = $("#total-riyal").text(0);
+                    var totalRupiah = $("#total-rupiah").text(0);
+
+
+
+                    var elements = $(
+                        "select[name='madinah'], select[name='mekah'], input[name='jumlah_hari'], input[name='jumlah_pax'], input[name='riyal_rupiah'], input[name='biaya_tour'], input[name='biaya_muthowif'], input[name='biaya_visa'], input[name='biaya_handling'], input[name='biaya_perlengkapan']"
+                    );
+
+                    $("#reset-btn").off("click").on('click', function() {
+                        elements.val(0);
+                        var totalRiyal = $("#total-riyal").text(0);
+                        var totalRupiah = $("#total-rupiah").text(0);
+
+
+
+                    });
+
+                    elements.off("change keyup input").on("change input keyup", function() {
+                        if ($(this).val() < 0) {
+                            $(this).val(1);
+                        }
+                        Hitung();
+                    })
+                    Hitung();
+
+                    function formatRial(number) {
+                        return number.toLocaleString("en-US");
+                    }
+
+                    function formatIndo(number) {
+                        return new Intl.NumberFormat('id-ID', {
+                            style: 'currency',
+                            currency: 'IDR',
+                            minimumFractionDigits: 0
+                        }).format(number);
+                    }
+
+                    function Hitung() {
+                        var hotelMadinah = parseFloat($("select[name='madinah']").val()) || 0;
+                        var hotelMekah = parseFloat($("select[name='mekah']").val()) || 0;
+
+                        var jumlah_hari = parseFloat($("input[name='jumlah_hari']").val()) || 0;
+                        var jumlah_pax = parseFloat($("input[name='jumlah_pax']").val()) || 0;
+                        var riyal_rupiah = parseFloat($("input[name='riyal_rupiah']").val()) || 0;
+                        var biaya_tour = parseFloat($("input[name='biaya_tour']").val()) || 0;
+                        var biaya_muthowif = parseFloat($("input[name='biaya_muthowif']").val()) || 0;
+                        var biaya_visa = parseFloat($("input[name='biaya_visa']").val()) || 0;
+                        var biaya_handling = parseFloat($("input[name='biaya_handling']").val()) || 0;
+                        var biaya_perlengkapan = parseFloat($("input[name='biaya_perlengkapan']").val()) || 0;
+                        $("#exchange-rate-display").text(riyal_rupiah);
+
+                        // if (
+                        //     jumlah_hari === 0 ||
+                        //     jumlah_pax === 0 ||
+                        //     biaya_muthowif === 0 ||
+                        //     biaya_tour === 0 ||
+                        //     biaya_visa === 0 ||
+                        //     biaya_handling === 0 ||
+                        //     biaya_perlengkapan === 0
+                        // ) {
+                        //     console.log("Ada input yang bernilai 0, perhitungan dihentikan.");
+                        //     return;
+                        // }
+
+                        var muthowif = (biaya_muthowif / jumlah_hari) * jumlah_pax;
+
+                        var totalRincian = hotelMadinah + hotelMekah + biaya_tour + biaya_visa + biaya_handling +
+                            biaya_perlengkapan + muthowif;
+
+
+                        console.log('ini rial nya', totalRincian);
+                        console.log('ini rupiah nya', totalRincian);
+
+
+                        totalRiyal.text(formatRial(totalRincian));
+                        totalRupiah.text(formatIndo(totalRincian * riyal_rupiah));
+
+                    }
+
+                });
+            </script>
+</body>
+
+</html>
