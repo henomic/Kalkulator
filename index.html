@@ -725,7 +725,6 @@
                                         value="7">
                                 </div>
                             </div>
-
                             <div class="form-group">
                                 <label class="form-label" for="pax">
                                     <i class="fas fa-users"></i> Jumlah pax
@@ -761,27 +760,35 @@
                             <div>
                                 <p class="section-description">Biaya tambahan yang diperlukan untuk perjalanan Anda</p>
 
-                                <div class="form-group">
+                                <div hidden class="form-group">
                                     <label class="form-label" for="visa-fee">
                                         <i class="fas fa-credit-card"></i> Biaya Tour Leader
                                     </label>
                                     <div class="input-group">
                                         <i class="fas fa-credit-card input-icon"></i>
                                         <input name="biaya_tour" type="number" class="form-control input-with-icon"
-                                            id="visa-fee" min="0" value="0">
+                                            id="visa-fee" min="0" value="2500000">
                                     </div>
                                     <div class="form-hint">Biaya Tour Leader</div>
                                 </div>
+                                {{-- <div class="form-group">
+                                    <label class="form-label" for="visa-fee">
+                                        <input type="checkbox" name="check" value="tes23" id="">
+                                        <i class="fas fa-credit-card"></i> Biaya Muthowif
+                                    </label>
+                                </div> --}}
 
                                 <div class="form-group">
+
+
                                     <label class="form-label" for="visa-fee">
-                                        <i class="fas fa-credit-card"></i> Biaya Muthowif
+                                        <i class="fas fa-credit-card"></i> Biaya Muthowif (Riyal)
                                     </label>
                                     <div class="input-group">
                                         <i class="fas fa-credit-card input-icon"></i>
                                         <input name="biaya_muthowif" type="number"
                                             class="form-control input-with-icon" id="visa-fee" min="0"
-                                            value="0">
+                                            value="250">
                                     </div>
                                     <div class="form-hint">Biaya Muthowif</div>
                                 </div>
@@ -793,7 +800,7 @@
                                     <div class="input-group">
                                         <i class="fas fa-credit-card input-icon"></i>
                                         <input type="number" name="biaya_visa" class="form-control input-with-icon"
-                                            id="visa-fee" min="0" value="0">
+                                            id="visa-fee" min="0" value="2500000">
                                     </div>
                                     <div class="form-hint">Biaya pemrosesan visa standar</div>
                                 </div>
@@ -833,7 +840,7 @@
 
 
                 <div class="detail-section">
-                    <h3 class="detail-title">Rincian Biaya Per Orang</h3>
+                    <h3 class="detail-title">Rincian Biaya </h3>
                     <div class="detail-grid">
                         <div class="detail-item">
                             <div class="detail-icon"><i class="fas fa-hotel"></i></div>
@@ -883,6 +890,14 @@
                                 <div class="detail-value-idr" id="detail-perlengkapan-idr">Rp 0</div>
                             </div>
                         </div>
+                        <div class="detail-item">
+                            <div class="detail-icon"><i class="fas fa-box"></i></div>
+                            <div class="detail-content">
+                                <div class="detail-label">Biaya Tour leader</div>
+                                <div class="detail-value" id="detail-tour">SAR 0</div>
+                                <div class="detail-value-idr" id="detail-tour-idr">Rp 0</div>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
@@ -914,6 +929,18 @@
 
             <script>
                 $(document).ready(function() {
+                    var check = $("input[name='check']");
+
+                    // check.on("change", function() {
+
+
+                    //     var checkedValues = check.filter(":checked").map(function() {
+                    //         return $(this).val();
+                    //     }).get();
+
+                    // });
+
+
 
                     var totalRiyal = $("#total-riyal").text(0);
                     var totalRupiah = $("#total-rupiah").text(0);
@@ -930,12 +957,16 @@
                     var detailPembiayaanhandlingIdr = $("#detail-handling-idr");
                     var detailPembiayaanperlengkapan = $("#detail-perlengkapan");
                     var detailPembiayaanperlengkapanIdr = $("#detail-perlengkapan-idr");
+                    var detailPembiayaantour = $("#detail-tour");
+                    var detailPembiayaantourIdr = $("#detail-tour-idr");
                     var elements = $(
                         "input[name='madinah'], input[name='mekah'], input[name='jumlah_hari'], input[name='jumlah_pax'], input[name='riyal_rupiah'], input[name='biaya_tour'], input[name='biaya_muthowif'], input[name='biaya_visa'], input[name='biaya_handling'], input[name='biaya_perlengkapan']"
                     );
 
                     $("#reset-btn").off("click").on('click', function() {
-                        elements.not("[name='riyal_rupiah'], [name='jumlah_hari'],[name='jumlah_pax']").val(0);
+                        elements.not(
+                            "[name='riyal_rupiah'],[name='biaya_tour'], [name='biaya_muthowif'],[name='biaya_visa'], [name='jumlah_hari'],[name='jumlah_pax']"
+                        ).val(0);
                         var totalRiyal = $("#total-riyal").text(0);
                         var totalRupiah = $("#total-rupiah").text(0);
 
@@ -952,6 +983,8 @@
                         detailPembiayaanhandlingIdr.text(0);
                         detailPembiayaanperlengkapan.text(0);
                         detailPembiayaanperlengkapanIdr.text(0);
+                        detailPembiayaantour.text(0);
+                        detailPembiayaantourIdr.text(0);
 
 
                     });
@@ -992,6 +1025,7 @@
 
 
 
+
                         $("#exchange-rate-display").text(riyal_rupiah);
 
                         // if (
@@ -1023,6 +1057,10 @@
                         var totalRincian = muthowif + totalMadinah + totalMekah + handlingBiaya + biaya_visa +
                             biaya_perlengkapan;
 
+                        var biayaTourTotal = totalRincian / jumlah_pax;
+
+
+
                         detailPembiayaanMadinahIdr.text(formatIndo(totalMadinah));
                         detailPembiayaanMadinah.text(totalMadinah / riyal_rupiah);
                         detailPembiayaanmekahIdr.text(formatIndo(totalMekah));
@@ -1035,6 +1073,8 @@
                         detailPembiayaanhandling.text((handlingBiaya / riyal_rupiah) ?? 0);
                         detailPembiayaanperlengkapanIdr.text(formatIndo(biaya_perlengkapan));
                         detailPembiayaanperlengkapan.text(biaya_perlengkapan / riyal_rupiah);
+                        detailPembiayaantour.text(formatIndo(biayaTourTotal / riyal_rupiah));
+                        detailPembiayaantourIdr.text(formatIndo(biayaTourTotal));
 
 
                         totalRiyal.text(formatRial(totalRincian / riyal_rupiah));
