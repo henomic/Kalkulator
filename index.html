@@ -1072,19 +1072,21 @@
 
 
 
-                         detailPembiayaanMadinahIdr.text(formatIndo(totalMadinah));
-                        detailPembiayaanMadinah.text(totalMadinah / riyal_rupiah);
+
+
+                        detailPembiayaanMadinahIdr.text(formatIndo(totalMadinah));
+                        detailPembiayaanMadinah.text(formatRial(totalMadinah / riyal_rupiah));
                         detailPembiayaanmekahIdr.text(formatIndo(totalMekah));
-                        detailPembiayaanmekah.text(totalMekah / riyal_rupiah);
+                        detailPembiayaanmekah.text(formatRial(totalMekah / riyal_rupiah));
                         detailPembiayaanmuthowifIdr.text(formatIndo(muthowif));
-                        detailPembiayaanmuthowif.text(muthowif / riyal_rupiah);
+                        detailPembiayaanmuthowif.text(formatRial(muthowif / riyal_rupiah));
                         detailPembiayaanvisaIdr.text(formatIndo(biaya_visa));
-                        detailPembiayaanvisa.text(biaya_visa / riyal_rupiah);
+                        detailPembiayaanvisa.text(formatRial(biaya_visa / riyal_rupiah));
                         detailPembiayaanhandlingIdr.text(formatIndo(handlingBiaya) ?? 0);
-                        detailPembiayaanhandling.text((handlingBiaya / riyal_rupiah) ?? 0);
+                        detailPembiayaanhandling.text(formatRial((handlingBiaya / riyal_rupiah) ?? 0));
                         detailPembiayaanperlengkapanIdr.text(formatIndo(biaya_perlengkapan));
-                        detailPembiayaanperlengkapan.text(biaya_perlengkapan / riyal_rupiah);
-                        detailPembiayaantour.text(formatIndo(biayaTourTotal / riyal_rupiah));
+                        detailPembiayaanperlengkapan.text(formatRial(biaya_perlengkapan / riyal_rupiah));
+                        detailPembiayaantour.text(formatRial(biayaTourTotal / riyal_rupiah));
                         detailPembiayaantourIdr.text(formatIndo(biayaTourTotal));
 
 
