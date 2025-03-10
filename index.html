@@ -792,7 +792,7 @@
                                 </div>
                              
 
-                                <div class="form-group">
+                                <div hidden class="form-group">
 
 
                                     <label class="form-label" for="visa-fee">
@@ -802,7 +802,7 @@
                                         <i class="fas fa-credit-card input-icon"></i>
                                         <input name="biaya_muthowif" type="number"
                                             class="form-control input-with-icon" id="visa-fee" min="0"
-                                            value="250">
+                                            value="1000000">
                                     </div>
                                     <div class="form-hint">Biaya Muthowif</div>
                                 </div>
@@ -1052,7 +1052,7 @@
 
 
 
-                        var muthowif = ((biaya_muthowif * riyal_rupiah) / jumlah_hari) * jumlah_pax;
+                        var muthowif = 1000000 * jumlah_pax;
 
                         // var totalRincian = hotelMadinah + hotelMekah + biaya_tour + biaya_visa + biaya_handling +
                         //     biaya_perlengkapan + muthowif;
@@ -1069,7 +1069,7 @@
                             biaya_perlengkapan;
 
                         var biayaTourTotal = totalRincian / jumlah_pax;
-
+                         totalRincian += biayaTourTotal;
 
 
 
