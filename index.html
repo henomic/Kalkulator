@@ -13,6 +13,78 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
+        .detail-section {
+            background: white;
+            border-radius: 0.75rem;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            border: 1px solid var(--border-color);
+        }
+
+        .detail-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: var(--primary-color);
+            text-align: center;
+        }
+
+        .detail-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1rem;
+        }
+
+        @media (min-width: 768px) {
+            .detail-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        .detail-item {
+            display: flex;
+            background: linear-gradient(to bottom right, var(--primary-light), #f0e7ff);
+            padding: 1rem;
+            border-radius: 0.5rem;
+            border: 1px solid #e0e7ff;
+            align-items: center;
+        }
+
+        .detail-icon {
+            width: 2.5rem;
+            height: 2.5rem;
+            background-color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 1rem;
+            color: var(--primary-color);
+            flex-shrink: 0;
+        }
+
+        .detail-content {
+            flex: 1;
+        }
+
+        .detail-label {
+            font-weight: 500;
+            margin-bottom: 0.25rem;
+            font-size: 0.9rem;
+        }
+
+        .detail-value {
+            font-weight: 600;
+            color: var(--text-color);
+        }
+
+        .detail-value-idr {
+            font-size: 0.85rem;
+            color: var(--primary-color);
+            font-weight: 500;
+        }
+
         :root {
             --primary-color: #4361ee;
             --primary-light: #eef2ff;
@@ -758,6 +830,63 @@
                 </div>
             </div>
             <div class="card-footer">
+
+
+                <div class="detail-section">
+                    <h3 class="detail-title">Rincian Biaya Per Orang</h3>
+                    <div class="detail-grid">
+                        <div class="detail-item">
+                            <div class="detail-icon"><i class="fas fa-hotel"></i></div>
+                            <div class="detail-content">
+                                <div class="detail-label">Hotel Madinah (3 malam)</div>
+                                <div class="detail-value" id="detail-madinah">SAR 0</div>
+                                <div class="detail-value-idr" id="detail-madinah-idr">Rp 0</div>
+                            </div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-icon"><i class="fas fa-hotel"></i></div>
+                            <div class="detail-content">
+                                <div class="detail-label">Hotel Mekah (4 malam)</div>
+                                <div class="detail-value" id="detail-mekah">SAR 0</div>
+                                <div class="detail-value-idr" id="detail-mekah-idr">Rp 0</div>
+                            </div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-icon"><i class="fas fa-user-tie"></i></div>
+                            <div class="detail-content">
+                                <div class="detail-label">Biaya Muthowif</div>
+                                <div class="detail-value" id="detail-muthowif">SAR 0</div>
+                                <div class="detail-value-idr" id="detail-muthowif-idr">Rp 0</div>
+                            </div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-icon"><i class="fas fa-passport"></i></div>
+                            <div class="detail-content">
+                                <div class="detail-label">Biaya Visa</div>
+                                <div class="detail-value" id="detail-visa">SAR 0</div>
+                                <div class="detail-value-idr" id="detail-visa-idr">Rp 0</div>
+                            </div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-icon"><i class="fas fa-briefcase"></i></div>
+                            <div class="detail-content">
+                                <div class="detail-label">Biaya Handling</div>
+                                <div class="detail-value" id="detail-handling">SAR 0</div>
+                                <div class="detail-value-idr" id="detail-handling-idr">Rp 0</div>
+                            </div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-icon"><i class="fas fa-box"></i></div>
+                            <div class="detail-content">
+                                <div class="detail-label">Biaya Perlengkapan</div>
+                                <div class="detail-value" id="detail-perlengkapan">SAR 0</div>
+                                <div class="detail-value-idr" id="detail-perlengkapan-idr">Rp 0</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
                 <div class="total-price-card">
                     <div class="price-grid">
                         <div>
@@ -777,9 +906,9 @@
                     </div>
                 </div>
 
-                <div class="button-group">
-                    <button class="btn btn-outline" id="reset-btn">Reset Semua</button>
-                    <button class="btn btn-primary" id="calculate-btn">Hitung Total</button>
+                <div class="">
+                    <button style="width: 100%;" class="btn btn-primary" id="reset-btn">Reset Semua</button>
+
                 </div>
             </div>
 
@@ -789,16 +918,40 @@
                     var totalRiyal = $("#total-riyal").text(0);
                     var totalRupiah = $("#total-rupiah").text(0);
 
-
+                    var detailPembiayaanMadinah = $("#detail-madinah");
+                    var detailPembiayaanMadinahIdr = $("#detail-madinah-idr");
+                    var detailPembiayaanmekah = $("#detail-mekah");
+                    var detailPembiayaanmekahIdr = $("#detail-mekah-idr");
+                    var detailPembiayaanmuthowif = $("#detail-muthowif");
+                    var detailPembiayaanmuthowifIdr = $("#detail-muthowif-idr");
+                    var detailPembiayaanvisa = $("#detail-visa");
+                    var detailPembiayaanvisaIdr = $("#detail-visa-idr");
+                    var detailPembiayaanhandling = $("#detail-handling");
+                    var detailPembiayaanhandlingIdr = $("#detail-handling-idr");
+                    var detailPembiayaanperlengkapan = $("#detail-perlengkapan");
+                    var detailPembiayaanperlengkapanIdr = $("#detail-perlengkapan-idr");
                     var elements = $(
                         "input[name='madinah'], input[name='mekah'], input[name='jumlah_hari'], input[name='jumlah_pax'], input[name='riyal_rupiah'], input[name='biaya_tour'], input[name='biaya_muthowif'], input[name='biaya_visa'], input[name='biaya_handling'], input[name='biaya_perlengkapan']"
                     );
 
                     $("#reset-btn").off("click").on('click', function() {
-                        elements.val(0);
+                        elements.not("[name='riyal_rupiah'], [name='jumlah_hari'],[name='jumlah_pax']").val(0);
                         var totalRiyal = $("#total-riyal").text(0);
                         var totalRupiah = $("#total-rupiah").text(0);
 
+
+                        detailPembiayaanMadinah.text(0);
+                        detailPembiayaanMadinahIdr.text(0);
+                        detailPembiayaanmekah.text(0);
+                        detailPembiayaanmekahIdr.text(0);
+                        detailPembiayaanmuthowif.text(0);
+                        detailPembiayaanmuthowifIdr.text(0);
+                        detailPembiayaanvisa.text(0);
+                        detailPembiayaanvisaIdr.text(0);
+                        detailPembiayaanhandling.text(0);
+                        detailPembiayaanhandlingIdr.text(0);
+                        detailPembiayaanperlengkapan.text(0);
+                        detailPembiayaanperlengkapanIdr.text(0);
 
 
                     });
@@ -835,6 +988,10 @@
                         var biaya_visa = parseFloat($("input[name='biaya_visa']").val()) || 0;
                         var biaya_handling = parseFloat($("input[name='biaya_handling']").val()) || 0;
                         var biaya_perlengkapan = parseFloat($("input[name='biaya_perlengkapan']").val()) || 0;
+
+
+
+
                         $("#exchange-rate-display").text(riyal_rupiah);
 
                         // if (
@@ -865,6 +1022,20 @@
 
                         var totalRincian = muthowif + totalMadinah + totalMekah + handlingBiaya + biaya_visa +
                             biaya_perlengkapan;
+
+                        detailPembiayaanMadinahIdr.text(formatIndo(totalMadinah));
+                        detailPembiayaanMadinah.text(totalMadinah / riyal_rupiah);
+                        detailPembiayaanmekahIdr.text(formatIndo(totalMekah));
+                        detailPembiayaanmekah.text(totalMekah / riyal_rupiah);
+                        detailPembiayaanmuthowifIdr.text(formatIndo(muthowif));
+                        detailPembiayaanmuthowif.text(muthowif / riyal_rupiah);
+                        detailPembiayaanvisaIdr.text(formatIndo(biaya_visa));
+                        detailPembiayaanvisa.text(biaya_visa / riyal_rupiah);
+                        detailPembiayaanhandlingIdr.text(formatIndo(handlingBiaya) ?? 0);
+                        detailPembiayaanhandling.text((handlingBiaya / riyal_rupiah) ?? 0);
+                        detailPembiayaanperlengkapanIdr.text(formatIndo(biaya_perlengkapan));
+                        detailPembiayaanperlengkapan.text(biaya_perlengkapan / riyal_rupiah);
+
 
                         totalRiyal.text(formatRial(totalRincian / riyal_rupiah));
                         totalRupiah.text(formatIndo(totalRincian));
