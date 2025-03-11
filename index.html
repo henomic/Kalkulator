@@ -1029,7 +1029,6 @@
                             </div>
                         </div>
 
-                        <a class=" ">Untuk total biaya per orang nya adalah</a>
                     </div>
                 </div>
                 <div class="total-price-card">
@@ -1132,6 +1131,11 @@
                     var detailPembiayaanperlengkapanIdr = $("#detail-perlengkapan-idr");
                     var detailPembiayaantour = $("#detail-tour");
                     var detailPembiayaantourIdr = $("#detail-tour-idr");
+                         var perOrang = $("#per-orang");
+                        var perOrangSar = $("#per-orang-sar");
+                        var perOrangTl = $("#per-orang-tl");
+                        var perOrangSarTl = $("#per-orang-sar-tl");
+
                     var elements = $(
                         "input[name='madinah'],input[name='hari-madinah'],input[name='hari-mekah'], input[name='mekah'], input[name='jumlah_hari'], input[name='jumlah_pax'], input[name='riyal_rupiah'], input[name='biaya_tour'], input[name='biaya_muthowif'], input[name='biaya_visa'], input[name='biaya_handling'], input[name='biaya_perlengkapan']"
                     );
@@ -1145,8 +1149,17 @@
                         $(".detail-madinah-malam").text(0);
                         $(".detail-mekah-malam").text(0);
 
+totalRiyal.text(0);
+totalRupiah.text(0);
+totalRiyalTl.text(0);
+totalRupiahTl.text(0);
+perOrang.text(0);
+perOrangSar.text(0);
+perOrangTl.text(0);
+perOrangSarTl.text(0);
 
-
+                        
+                        
                         detailPembiayaanMadinah.text(0);
                         detailPembiayaanMadinahIdr.text(0);
                         detailPembiayaanmekah.text(0);
@@ -1200,11 +1213,7 @@
                         var jumlahHariMekah = parseFloat($("input[name='hari-mekah']").val()) || 0;
                         var jumlahHariMadinah = parseFloat($("input[name='hari-madinah']").val()) || 0;
 
-                        var perOrang = $("#per-orang");
-                        var perOrangSar = $("#per-orang-sar");
-                        var perOrangTl = $("#per-orang-tl");
-                        var perOrangSarTl = $("#per-orang-sar-tl");
-
+                   
 
                         $("input[name='jumlah_hari']").val(jumlahHariMadinah + jumlahHariMekah);
                         $(".detail-madinah-malam").text(jumlahHariMadinah);
