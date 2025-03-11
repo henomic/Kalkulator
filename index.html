@@ -1052,7 +1052,8 @@
 
 
 
-                        var muthowif = 1000000 * jumlah_pax;
+                        var muthowif = (250*riyal_rupiah*jumlah_hari)/jumlah_pax;
+                        console.log("ini mutowiffff",muthowif);
 
                         // var totalRincian = hotelMadinah + hotelMekah + biaya_tour + biaya_visa + biaya_handling +
                         //     biaya_perlengkapan + muthowif;
@@ -1063,7 +1064,7 @@
 
                         var totalMadinah = (hotelMadinah * riyal_rupiah * jumlahHariMadinah) / 4
                         var totalMekah = (hotelMekah * riyal_rupiah * jumlahHariMekah) / 4
-                        var handlingBiaya = biaya_handling / jumlah_pax;
+                        var handlingBiaya = biaya_handling * jumlah_pax;
 
                         var totalRincian = muthowif + totalMadinah + totalMekah + handlingBiaya + biaya_visa +
                             biaya_perlengkapan;
