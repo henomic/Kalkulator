@@ -1006,7 +1006,10 @@
                             </div>
                         </div>
                     </div>
+                    
                 </div>
+
+                
 
 
                 <!-- <div class="total-price-card">
@@ -1069,12 +1072,17 @@
                                     <div class="price-value" id="per-orang-sar-tl">SAR 3.125</div>
                                 </div>
                             </div>
+                            
                         </div>
+                           <div style="margin-top: 4rem;" class="price-box">
+                                    <div class="price-label">Total semua biaya (dengan tour leader)</div>
+                                    <div class="price-value" id="totalSemuaBiayaTl"></div>
+                                </div>
 
                         <div class="separator"></div>
 
                         <!-- Without Tour Leader Section -->
-                        <div class="price-section">
+                        <div style="margin-top: 6rem;" class="price-section">
                             <h3>Tanpa Tour Leader</h3>
                             <div class="price-grid">
                                 <div class="price-box">
@@ -1087,8 +1095,12 @@
                                 </div>
                             </div>
                         </div>
-
+   <div style="margin-top: 4rem;" class="price-box">
+                                    <div  class="label-price">Total semua biaya (tanpa tour leader)</div>
+                                    <div class="price-value" id="totalSemuaBiaya"></div>
+                                </div>
                     </div>
+                 
                 </div>
 
                 <div class="">
@@ -1135,6 +1147,8 @@
                         var perOrangSar = $("#per-orang-sar");
                         var perOrangTl = $("#per-orang-tl");
                         var perOrangSarTl = $("#per-orang-sar-tl");
+                        var totalSemuaBiayaTl = $("#totalSemuaBiayaTl");
+                        var totalSemuaBiaya = $("#totalSemuaBiaya");
 
                     var elements = $(
                         "input[name='madinah'],input[name='hari-madinah'],input[name='hari-mekah'], input[name='mekah'], input[name='jumlah_hari'], input[name='jumlah_pax'], input[name='riyal_rupiah'], input[name='biaya_tour'], input[name='biaya_muthowif'], input[name='biaya_visa'], input[name='biaya_handling'], input[name='biaya_perlengkapan']"
@@ -1268,7 +1282,8 @@ perOrangSarTl.text(0);
                         perOrangSarTl.text(formatRial(totalRincian / riyal_rupiah));
                         perOrangTl.text(formatIndo(totalRincian));
 
-
+totalSemuaBiayaTl.text(formatIndo(totalRincian*jumlah_pax));
+totalSemuaBiaya.text(formatIndo(tanpaTl*jumlah_pax));
 
                     }
 
