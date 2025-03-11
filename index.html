@@ -1009,7 +1009,7 @@
                 </div>
 
 
-                <div class="total-price-card">
+                <!-- <div class="total-price-card">
                     <h2 style="margin-bottom: 1rem">
                         Total harga (Dengan Tour Leader)
                     </h2>
@@ -1051,7 +1051,7 @@
                             </div>
                         </div>
                     </div>
-                </div>
+                </div> -->
 
                 <div class="card-per-orang" style="width: 100%; max-width: none; margin-top: 20px;">
                     <div class="card-content">
@@ -1236,7 +1236,7 @@ perOrangSarTl.text(0);
 
                         var totalMadinah = (hotelMadinah * riyal_rupiah * jumlahHariMadinah) / 4
                         var totalMekah = (hotelMekah * riyal_rupiah * jumlahHariMekah) / 4
-                        var handlingBiaya = biaya_handling * jumlah_pax;
+                        var handlingBiaya = biaya_handling ;
 
                         var totalRincian = totalMadinah + totalMekah + handlingBiaya + biaya_visa +
                             biaya_perlengkapan;
@@ -1263,16 +1263,12 @@ perOrangSarTl.text(0);
                         detailPembiayaantourIdr.text(formatIndo(biayaTourTotal));
 
 
-                        totalRiyal.text(formatRial(totalRincian / riyal_rupiah));
-                        totalRupiah.text(formatIndo(totalRincian));
-                        totalRiyalTl.text(formatRial(tanpaTl / riyal_rupiah));
-                        totalRupiahTl.text(formatIndo(tanpaTl));
+                        perOrangSar.text(formatRial(totalRincian / riyal_rupiah));
+                        perOrang.text(formatIndo(totalRincian));
+                        perOrangSarTl.text(formatRial(tanpaTl / riyal_rupiah));
+                        perOrangTl.text(formatIndo(tanpaTl));
 
 
-                        perOrang.text(formatIndo(tanpaTl / jumlah_pax));
-                        perOrangSar.text(formatRial((tanpaTl / jumlah_pax) / riyal_rupiah));
-                        perOrangTl.text(formatIndo(totalRincian / jumlah_pax));
-                        perOrangSarTl.text(formatRial((totalRincian / jumlah_pax) / riyal_rupiah));
 
                     }
 
